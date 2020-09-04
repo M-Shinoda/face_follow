@@ -1,7 +1,7 @@
 import cv2
 import pyfirmata
 
-#/Arduinoを通ための初期設定
+#/Arduinoを使うための初期設定
 port = 'COM15'                      #ポートの設定
 board = pyfirmata.Arduino(port)
 it = pyfirmata.util.Iterator(board)
@@ -30,21 +30,20 @@ while capture.isOpened():
         print('FAIL')
         continue
     #/
+    #/サーボモーター用の角度補正用(決め打ち)
+    correct_val = 15
+    unuse_ang = 50 #0~unuse_ang,180~180-unuse_ang
+    b_MIN = 100
+    b_MAX = 540
+    a_MIN = unuse_ang
+    a_MAX = 180 - unuse_ang - correct_val
+    #/
 
     for x, y, w, h in faces:
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         face_center_x = x + w / 2
         cv2.drawMarker(frame, (int(face_center_x), int(y + h / 2)), (255, 0, 0))
-        # ang = (face_center_x - 100) / 2.44 + 45
-        # if ang > 135:
-        #     ang == 135
-        # ang = 135 - ang
-        correct_val = 15
-        unuse_ang = 50#0~unuse_ang,180~180-unuse_ang
-        b_MIN = 100
-        b_MAX = 550
-        a_MIN = unuse_ang
-        a_MAX = 180 - unuse_ang - correct_val
+
         ang = a_MAX - int(map(face_center_x, b_MIN, b_MAX, a_MIN, a_MAX)) + unuse_ang
         pin1.write(ang)
         print(ang)
