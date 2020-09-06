@@ -23,7 +23,7 @@ while capture.isOpened():
 
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)                 #顔認識ようにグレースケールを用意する
 
-    faces = face_cascade.detectMultiScale(frame_gray, minSize=(100,100)) #顔認識
+    faces = face_cascade.detectMultiScale(frame_gray, minSize=(120,120)) #顔認識
 
     #/顔認識が出来なかった時にFAILを表示
     if len(faces) == 0:
@@ -47,6 +47,7 @@ while capture.isOpened():
         ang = a_MAX - int(map(face_center_x, b_MIN, b_MAX, a_MIN, a_MAX)) + unuse_ang #疑似map関数を使って顔の中心の画面位置からサーボの角度を出す
         pin1.write(ang)
         print(ang)
-
-        cv2.imshow('face_detect', frame)
+        
+        frip_lr = cv2.flip(frame, 1)
+        cv2.imshow('face_detect', frip_lr)
         cv2.waitKey(1)
