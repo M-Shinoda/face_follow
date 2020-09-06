@@ -6,7 +6,7 @@ port = 'COM15'                      #ポートの設定
 board = pyfirmata.Arduino(port)
 it = pyfirmata.util.Iterator(board)
 it.start()
-pin1 = board.get_pin('d:13:s')       #ピンの設定
+pin1 = board.get_pin('d:12:s')       #ピンの設定
 #/
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml') #顔判定用のカスケードファイルを指定,同じ階層にいるので名前を指定
@@ -36,7 +36,7 @@ while capture.isOpened():
     b_MIN = 0 + 100
     b_MAX = mw - 100
     a_MIN = unuse_ang
-    a_MAX = 180 - unuse_ang - correct_val
+    a_MAX = 180 - unuse_ang - correct_val #反転用
     #/
 
     for x, y, w, h in faces:
